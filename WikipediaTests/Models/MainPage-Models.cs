@@ -7,7 +7,7 @@ using OpenQA.Selenium;
 
 namespace Wikipedia
 {
-    internal class MainModels
+    public class MainModels
     {
         private IWebDriver driver;
         

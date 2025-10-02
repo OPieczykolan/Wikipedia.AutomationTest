@@ -2,12 +2,12 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using static System.Net.Mime.MediaTypeNames;
-
 namespace Selenium.Core
 {
     public class GeneralUtilites
     {
+        private static IJavaScriptExecutor driver;
+
         public ChromeDriver Driver { get; set; }
 
         public GeneralUtilites()
@@ -22,8 +22,6 @@ namespace Selenium.Core
 
         }
 
-       
-
         public void TearDown()
         {
             if (Driver != null)
@@ -32,8 +30,12 @@ namespace Selenium.Core
             }
 
         }
+        public static void ScrollToBottom()
+        {
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
+        }
 
-        // To work on this method
         public void SelectDropdown(IWebElement dropdownElement, string dropdownText)
         {
            

@@ -5,7 +5,7 @@ using System;
 
 namespace QADemo
 {
-    public class MainTestsQADemo
+    public class QADemoTests
     {
         private GeneralUtilites _utils;
         private PracticeFormVariables _variables;

@@ -49,12 +49,6 @@ namespace QADemo
             }
         }
 
-        public static void ScrollToBottom()
-        {
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
-        }
-
         public static void StateDropDownPick(string state)
         {
             models.stateDropDown.Click();
@@ -80,8 +74,7 @@ namespace QADemo
             Assert.That(models.submitFormStudentHobbies.Text, Is.EqualTo(variables.hobbies));
             Assert.That(models.submitFormStudentAddress.Text, Is.EqualTo(variables.currentAddress));
             Assert.That(models.submitFormStudentStateAndCity.Text, Is.EqualTo(variables.state + " " + variables.city));
-            // For the part below i might need help as i'm not sure why this is still not working. WIll try to resolve that
-            //Assert.That(models.submitFormStudentPicture.Text, Does.Contain(variables.dataFilePath));
+            Assert.That(variables.dataFilePath, Does.Contain(models.submitFormStudentPicture.Text));
         }
     }
 }

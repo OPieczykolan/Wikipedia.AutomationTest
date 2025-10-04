@@ -31,7 +31,7 @@ namespace QADemo
             _models.genderMaleRadio.Click();
             _models.subjectField.SendKeys(_variables.subject);
             _models.subjectField.SendKeys(Keys.Enter);
-            PracticeFormActions.ScrollToBottom();
+            _utils.ScrollToBottom();
             _models.hobbiesCheckboxSports.Click();
             _models.currentAddressField.SendKeys(_variables.currentAddress);
             PracticeFormActions.StateDropDownPick(_variables.state);

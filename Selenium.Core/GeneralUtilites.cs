@@ -19,7 +19,6 @@ namespace Selenium.Core
         {
             Driver.Navigate().GoToUrl(url);
             Driver.Manage().Window.Maximize();
-
         }
 
         public void TearDown()
@@ -28,17 +27,15 @@ namespace Selenium.Core
             {
                 Driver.Dispose();
             }
-
         }
-        public static void ScrollToBottom()
+        public void ScrollToBottom()
         {
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            IJavaScriptExecutor js = (IJavaScriptExecutor)Driver;
             js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
         }
 
         public void SelectDropdown(IWebElement dropdownElement, string dropdownText)
         {
-           
             var dropdown = new SelectElement(dropdownElement);
             dropdown.SelectByText(dropdownText);
         }

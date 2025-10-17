@@ -1,7 +1,7 @@
-﻿using System.Xml.Linq;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+
 namespace Selenium.Core
 {
     public class GeneralUtilites
@@ -39,5 +39,12 @@ namespace Selenium.Core
             var dropdown = new SelectElement(dropdownElement);
             dropdown.SelectByText(dropdownText);
         }
+
+        public void AcceptAlert()
+        {
+            IAlert alert = Driver.SwitchTo().Alert();
+            alert.Accept();
+        }
     }
 }
+

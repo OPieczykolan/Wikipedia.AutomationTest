@@ -32,7 +32,7 @@ namespace QADemo.Tests
             _models.userNameField.SendKeys(_variables.inValidUserName);
             _models.passwordField.SendKeys(_variables.inValidPassword);
             _models.loginButton.Click();
-            Thread.Sleep(3000);
+            _utilities.WaitForElement(_models.invalidLoginLocator);
             Assert.That(_models.invalidLogin.Text, Is.EqualTo(_variables.loginErrorMessage));
         }
 
@@ -55,7 +55,7 @@ namespace QADemo.Tests
             BookStoreActions.SucessfullLogin();
             _utilities.ScrollToBottom();
             _models.leftPanelBookStore.Click();
-            Thread.Sleep(3000);
+            _utilities.WaitForElement(_models.storeUserNameLabelLocator);
             Assert.That(_models.storeUserNameLabel.Text, Is.EqualTo(_variables.validUserName));
             _utilities.ScrollToBottom();
             BookStoreActions.SelectRowsPerPage("5");
@@ -98,8 +98,8 @@ namespace QADemo.Tests
         public void RemoveBookFromCollection()
         {
             BookStoreActions.SucessfullLogin();
-            // Step below needs to be done by API as UI adding is not working application
-            BookStoreActions.AddBookToCollectionByAPI();
+            // Step below needs to be done by API as UI adding is not working in application
+            BookStoreActions.AddBookToCollectionByAPI(_variables);
             Thread.Sleep(1000);
             _utilities.Driver.Navigate().Refresh();
             _models.leftPanelProfile.Click();

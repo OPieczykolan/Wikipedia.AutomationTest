@@ -20,8 +20,6 @@ namespace Wikipedia
         [SetUp]
         public void Setup()
         {
-
-            //Should it be like that? This instance of Setup can be very long overtime
             utils = new GeneralUtilites();
             models = new MainModels(utils.Driver);
             createAccountPageData = new CreateAccountPageData(utils.Driver);
@@ -30,8 +28,6 @@ namespace Wikipedia
             otherData = new OtherData(utils.Driver);
             utils.SetUp(otherData.WikipediaUrl);
             models.engRedirection.Click();
-
-            
         }
 
         [Test]
@@ -41,8 +37,6 @@ namespace Wikipedia
            models.uploadFileButtonMainManuDropdown.Click();
            uploadModels.uploadNonFreeFileButton.Click();
            Assert.That(uploadModels.loginRequiredInfo.Text, Is.EqualTo("Login required"));
-
-
         }
 
         [Test]
@@ -71,10 +65,9 @@ namespace Wikipedia
 
         public void CheckBackgroundColorChanges()
         {
-            //Find a way to make proper assertions
-
             models.darkMode.Click();
             models.lightMode.Click();
+            models.darkMode.Click();
         }
 
 

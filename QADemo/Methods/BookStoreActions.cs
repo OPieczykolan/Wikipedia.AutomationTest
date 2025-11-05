@@ -40,7 +40,13 @@ namespace QADemo.Methods
             select.SelectByValue(value);
         }
 
-        public static void AddBookToCollectionByAPI()
+       public static void Wait()
+        {
+            WebDriverWait wait = new WebDriverWait(utilities.Driver, TimeSpan.FromSeconds(3));
+        }
+           
+
+        public static void AddBookToCollectionByAPI(BookStoreVariables variables)
         {
             client = new RestClient(variables.demoQAUrl);
             var loginRequest = new RestRequest("/Account/v1/Login", Method.Post);

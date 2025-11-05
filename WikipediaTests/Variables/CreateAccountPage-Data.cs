@@ -11,7 +11,7 @@ namespace Wikipedia
     {
         private IWebDriver driver;
 
-        public string username = "TestUser12345";
+        public string username = "TestUser1234534534";
 
         public string password = "TestPassword12345!";
             

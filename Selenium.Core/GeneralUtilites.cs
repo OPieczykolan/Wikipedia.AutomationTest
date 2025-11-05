@@ -45,6 +45,27 @@ namespace Selenium.Core
             IAlert alert = Driver.SwitchTo().Alert();
             alert.Accept();
         }
+        public void WaitForElement(By locator, int timeoutSeconds = 10)
+        {
+            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutSeconds));
+            wait.Until(driver =>
+            {
+                try
+                {
+                    var element = driver.FindElement(locator);
+                    return element.Displayed;
+                }
+                catch (NoSuchElementException)
+                {
+                    return false;
+                }
+                catch (StaleElementReferenceException)
+                {
+                    return false;
+                }
+            });
+        }
+
     }
 }
 

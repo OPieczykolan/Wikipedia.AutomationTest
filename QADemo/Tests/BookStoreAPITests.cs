@@ -62,14 +62,13 @@ namespace DemoQATests
 
         public void RemoveBookFromCollection()
         {
-            //BookStoreActions.AddBookToCollectionByAPI();
+            BookStoreActions.AddBookToCollectionByAPI(_variables);
             var requestDelete = new RestRequest("/BookStore/v1/Book", Method.Delete);
             requestDelete.AddHeader("Authorization", $"Bearer {_variables.token}");
             var body = new
             {
-                _variables.userId,
+               _variables.userId,
                isbn = _variables.isbnGitPocketGuide
-
             };
             requestDelete.AddJsonBody(body);
             var response = _client.Execute(requestDelete);

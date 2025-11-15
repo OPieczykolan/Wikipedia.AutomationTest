@@ -7,11 +7,6 @@ namespace QADemo.Models
     {
         private readonly IWebDriver driver;
 
-        public BookStoreModels(IWebDriver driver)
-        {
-            this.driver = driver;
-        }
-
         // ----- Locators -----
         public By bookStoreAppCardLocator => By.XPath("//h5[text()='Book Store Application']");
         public By leftPanelLoginLocator => By.XPath("//span[@class='text' and text()='Login']");
@@ -71,5 +66,10 @@ namespace QADemo.Models
         public IWebElement okPopUpButton => driver.FindElement(okPopUpButtonLocator);
         public IWebElement goToBookStoreButton => driver.FindElement(goToBookStoreButtonLocator);
         public IWebElement deleteBook => driver.FindElement(deleteBookLocator);
+
+        public BookStoreModels(IWebDriver driver)
+        {
+            this.driver = driver;
+        }
     }
 }

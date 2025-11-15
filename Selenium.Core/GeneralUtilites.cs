@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System.Text.RegularExpressions;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
@@ -64,6 +65,15 @@ namespace Selenium.Core
                     return false;
                 }
             });
+        }
+
+        public string NormalizeString(string input)
+        {
+            // Usuwamy znaki końca linii
+            string noLineBreaks = Regex.Replace(input, @"\r?\n|\r", " ");
+            // Zamieniamy wielokrotne spacje na jedną
+            string normalizedSpaces = Regex.Replace(noLineBreaks, @"\s+", " ").Trim();
+            return normalizedSpaces;
         }
 
     }

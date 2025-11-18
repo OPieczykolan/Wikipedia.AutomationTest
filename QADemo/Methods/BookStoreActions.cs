@@ -56,12 +56,12 @@ namespace QADemo.Methods
                 password = variables.validPassword
             });
             var loginResponse = client.Execute(loginRequest);
-            Assert.IsTrue(loginResponse.IsSuccessful, "Login successfull");
+            Assert.That(loginResponse.IsSuccessful, Is.True, "Login successfull");
             var jsonResponseFile = JsonDocument.Parse(loginResponse.Content);
             variables.token = jsonResponseFile.RootElement.GetProperty("token").GetString();
             variables.userId = jsonResponseFile.RootElement.GetProperty("userId").GetString();
-            Assert.IsFalse(string.IsNullOrEmpty(variables.token), "Token is empty!");
-            Assert.IsFalse(string.IsNullOrEmpty(variables.userId), "UserId is empty!");
+            Assert.That(string.IsNullOrEmpty(variables.token), Is.False, "Token is empty!");
+            Assert.That(string.IsNullOrEmpty(variables.userId), Is.False, "UserId is empty!");
             var requestAdd = new RestRequest("/BookStore/v1/Books", Method.Post);
             requestAdd.AddHeader("Authorization", $"Bearer {variables.token}");
             var body = new
@@ -74,7 +74,7 @@ namespace QADemo.Methods
             };
             requestAdd.AddJsonBody(body);
             var response = client.Execute(requestAdd);
-            Assert.IsTrue(response.IsSuccessful, "Action failed - book not added");
+            Assert.That(response.IsSuccessful, Is.True, "Action failed - book not added");
         }
     }
 }

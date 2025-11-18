@@ -1,11 +1,11 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using QADemo.Methods;
 using QADemo.Models;
 using QADemo.Variables;
 using Selenium.Core;
 using System;
-
 
 namespace QADemo.Tests
 {
@@ -47,8 +47,94 @@ namespace QADemo.Tests
         {
             _models.checkBoxLeftPanel.Click();
             _models.expandAllButtonElements.Click();
-            _models.notesCheckboxElements.Click();
+            foreach(IWebElement checkbox in _models.allCheckboxIconsElements)
+            {
+                checkbox.Click();
+            }
+            Assert.That(_models.resultContainerElements.Text, Is.EqualTo(_variables.checboxSuccessMessage));
+        }
 
+        [Test]
+        public void RadioButton()
+        {
+            _models.radioButtonLeftPanel.Click();
+            _models.yesRadioButtonElements.Click();
+            Assert.That(_models.radioButtonResultElements.Text, Is.EqualTo("Yes"));
+            _models.impressiveRadioButtonElements.Click();
+            Assert.That(_models.radioButtonResultElements.Text, Is.EqualTo("Impressive"));
+            Assert.That(_models.noRadioButtonElements.Enabled, Is.False);
+        }
+
+        [Test]
+
+        public void Buttons()
+        {
+            _models.buttonsLeftPanel.Click();
+            _models.doubleClickButtonElements.Click();
+            _models.rightClickButtonElements.Click();
+            _utilities.RightClick(_models.clickMeButtonElements);
+            //To work on it
+            /*foreach (IWebElement resultMessage in _models.allButtonsMessagesElements)
+            {
+                Assert.That(resultMessage.Displayed, Is.False);
+            }*/ 
+            _utilities.ActionDoubleClick(_models.doubleClickButtonElements);
+            Assert.That(_models.doubleClickMessageElements.Text, Is.EqualTo(_variables.doubleClickMessage));
+            _utilities.RightClick(_models.rightClickButtonElements);
+            Assert.That(_models.rightClickMessageElements.Text, Is.EqualTo(_variables.rightClickMessage));
+            _models.clickMeButtonElements.Click();
+            Assert.That(_models.clickMeMessageElements.Text, Is.EqualTo(_variables.clickMeMessage));
+        }
+
+        [Test]
+
+        public void UploadAndDownload()
+        {
+            _models.uploadAndDownloadLeftPanel.Click();
+            foreach (var file in Directory.GetFiles(_utilities.downloadLocation))
+            {
+                File.Delete(file);
+            }
+            _models.downloadButtonElements.Click();
+            Thread.Sleep(4000);
+            _models.uploadFileElements.SendKeys(_utilities.GetLatestDownloadedFile());
+            Assert.That(File.Exists(_utilities.GetLatestDownloadedFile()), Is.True);
+            Assert.That(_models.uploadedFilePathElements.Text, Is.EqualTo(_variables.uploadedFileConfirmationMessageElements));
+        }
+
+        [Test]
+        public void Links()
+        {
+
+            //Rebuild this test using Chrome DEvTools Protocol to capture network responses
+            _models.linksLeftPanel.Click();
+            _models.homeLinkElements.Click();
+            _utilities.GoToNewTab();
+            Assert.That(_utilities.Driver.Url, Is.EqualTo(_variables.homeURL));
+            _utilities.Driver.Close();
+            _utilities.Driver.SwitchTo().Window(_utilities.Driver.WindowHandles[0]);
+            _models.createdLinkElements.Click();
+            _models.badRequestLinkElements.Click();
+            _utilities.WaitForElementText(_models.linkResponseElements, _variables.badRequestLinkResponse);
+            Assert.That(_models.linkResponseElements.Text, Is.EqualTo(_variables.badRequestLinkResponse));
+            _models.noContentLinkElements.Click();
+            _utilities.WaitForElementText(_models.linkResponseElements, _variables.noContentLinkResponse);
+            Assert.That(_models.linkResponseElements.Text, Is.EqualTo(_variables.noContentLinkResponse));
+            _models.createdLinkElements.Click();
+            _utilities.WaitForElementText(_models.linkResponseElements, _variables.createdLinkResponse);
+            Assert.That(_models.linkResponseElements.Text, Is.EqualTo(_variables.createdLinkResponse));
+            _models.movedLinkElements.Click();
+            _utilities.WaitForElementText(_models.linkResponseElements, _variables.movedLinkResponse);
+            Assert.That(_models.linkResponseElements.Text, Is.EqualTo(_variables.movedLinkResponse));
+            _models.unauthorizedLinkElements.Click();
+            _utilities.WaitForElementText(_models.linkResponseElements, _variables.unauthorizedLinkResponse);
+            Assert.That(_models.linkResponseElements.Text, Is.EqualTo(_variables.unauthorizedLinkResponse));
+            _models.forbiddenLinkElements.Click();
+            _utilities.WaitForElementText(_models.linkResponseElements, _variables.forbiddenLinkResponse);
+            Assert.That(_models.linkResponseElements.Text, Is.EqualTo(_variables.forbiddenLinkResponse));
+            _models.notFoundLinkElements.Click();
+            _utilities.WaitForElementText(_models.linkResponseElements, _variables.notFoundLinkResponse);
+            Assert.That(_models.linkResponseElements.Text, Is.EqualTo(_variables.notFoundLinkResponse));
         }
     }
 }

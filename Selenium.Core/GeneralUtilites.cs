@@ -11,9 +11,20 @@ namespace Selenium.Core
 
         public ChromeDriver Driver { get; set; }
 
+        public string downloadLocation = "C:\\Users\\Oskar\\Downloads\\QA Demo";
+
+        private ChromeDriver ChromeDriverNewDownloadPath(string downloadPath)
+        {
+            var options = new ChromeOptions();
+            options.AddUserProfilePreference("download.default_directory", downloadPath);
+            options.AddUserProfilePreference("download.prompt_for_download", false);
+            options.AddUserProfilePreference("safebrowsing.enabled", true);
+            return new ChromeDriver(options);
+        }
+
         public GeneralUtilites()
         {
-            Driver = new ChromeDriver();
+            Driver = ChromeDriverNewDownloadPath(downloadLocation);
         }
 
         public void SetUp(string url)
@@ -46,14 +57,14 @@ namespace Selenium.Core
             IAlert alert = Driver.SwitchTo().Alert();
             alert.Accept();
         }
-        public void WaitForElement(By locator, int timeoutSeconds = 10)
+        public void WaitForElement(By model, int timeoutSeconds = 10)
         {
             var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutSeconds));
             wait.Until(driver =>
             {
                 try
                 {
-                    var element = driver.FindElement(locator);
+                    var element = driver.FindElement(model);
                     return element.Displayed;
                 }
                 catch (NoSuchElementException)
@@ -67,15 +78,81 @@ namespace Selenium.Core
             });
         }
 
+        public void WaitForElementText(IWebElement element, string expectedText, int timeoutSeconds = 10)
+        {
+            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutSeconds));
+
+            wait.Until(driver =>
+            {
+                try
+                {
+                    return element.Text.Contains(expectedText);
+                }
+                catch (StaleElementReferenceException)
+                {
+                    return false;
+                }
+            });
+        }
+
         public string NormalizeString(string input)
         {
-            // Usuwamy znaki końca linii
             string noLineBreaks = Regex.Replace(input, @"\r?\n|\r", " ");
-            // Zamieniamy wielokrotne spacje na jedną
             string normalizedSpaces = Regex.Replace(noLineBreaks, @"\s+", " ").Trim();
             return normalizedSpaces;
         }
 
-    }
+        public void ActionDoubleClick(IWebElement element)
+        {
+            var actions = new OpenQA.Selenium.Interactions.Actions(Driver);
+            actions.DoubleClick(element).Perform();
+        }
+
+        public void RightClick(IWebElement element)
+        {
+            var actions = new OpenQA.Selenium.Interactions.Actions(Driver);
+            actions.ContextClick(element).Perform();
+        }
+
+        public string GetLatestDownloadedFile()
+        {
+            return Directory.GetFiles(downloadLocation)   // ← zamiana! pobieram LISTĘ plików
+                .Select(path => new FileInfo(path))            // zamieniam string → FileInfo
+                .OrderByDescending(path => path.LastWriteTime) // sortuję po dacie modyfikacji
+                .First()                                 // biorę najnowszy
+                .FullName;                               // zwracam pełną ścieżkę
+        }
+
+        public string GoToNewTab()
+        {
+            var tabs = Driver.WindowHandles;
+            Driver.SwitchTo().Window(tabs[1]);
+            return Driver.Url;
+        }
+
+        public void CloseCurrentTabAndSwitchBack()
+        {
+            var tabs = Driver.WindowHandles;
+            Driver.Close();
+            Driver.SwitchTo().Window(tabs[0]);
+        }
+
+        public void GetResponseStatusCode(string response)
+        {
+            var statusCodePattern = @"\b\d{3}\b";
+            var match = Regex.Match(response, statusCodePattern);
+            if (match.Success)
+            {
+                string statusCode = match.Value;
+                return;
+            }
+            else
+            {
+                throw new Exception("Status code not found in the response.");
+            }
+        }
+        
+
+    }   
 }
 

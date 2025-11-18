@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11205.157 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikipediaTests", "WikipediaTests\WikipediaTests.csproj", "{953E2B40-B1D3-4D93-89CF-5D6074AB5457}"
 EndProject
@@ -35,5 +35,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C8155D1C-CE58-48C9-892A-8434302630B6} = {62B2132F-6943-4299-8AB4-DFAC35BA5BCC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {99A3D44F-1DF5-47EF-8072-F63F410E5F99}
 	EndGlobalSection
 EndGlobal

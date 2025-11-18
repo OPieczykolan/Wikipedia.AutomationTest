@@ -18,7 +18,7 @@ namespace QADemo
         public string mobileNumber = "1234567890";
         public string subject = "Chemistry";
         public string currentAddress = "123 Test, Test City, Test Country";
-        public string dataFilePath = "C:\\Users\\o.pieczykolan\\source\\repos\\OPieczykolan\\Wikipedia.AutomationTest\\QADemo\\Data\\download.jpg";
+        public string dataFilePath = "C:\\Users\\Oskar\\source\\repos\\OPieczykolan\\Wikipedia.AutomationTest\\QADemo\\Data\\download.jpg";
         public string submitFormConfirmationMessage = "Thanks for submitting the form";
         public string state = "NCR";
         public string city = "Delhi";

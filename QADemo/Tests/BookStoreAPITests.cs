@@ -10,6 +10,7 @@ namespace DemoQATests
 {
     public class BookStoreAPITests
     {
+#pragma warning disable NUnit1032 // An IDisposable field/property should be Disposed in a TearDown method
         private RestClient _client;
         private GeneralUtilites _utilities;
         private BookStoreVariables _variables;
@@ -20,22 +21,19 @@ namespace DemoQATests
             _utilities = new GeneralUtilites();
             _variables = new BookStoreVariables(_utilities.Driver);
             _client = new RestClient(_variables.demoQAUrl);
-
             var loginRequest = new RestRequest("/Account/v1/Login", Method.Post);
-
             loginRequest.AddJsonBody(new
             {
                 userName = _variables.validUserName,
                 password = _variables.validPassword
             });
-
             var loginResponse = _client.Execute(loginRequest);
-            Assert.IsTrue(loginResponse.IsSuccessful, "Login successfull");
+            Assert.That(loginResponse.IsSuccessful, Is.True, "Login successfull");
             var jsonResponseFile = JsonDocument.Parse(loginResponse.Content);
             _variables.token = jsonResponseFile.RootElement.GetProperty("token").GetString();
             _variables.userId = jsonResponseFile.RootElement.GetProperty("userId").GetString();
-            Assert.IsFalse(string.IsNullOrEmpty(_variables.token), "Token is empty!");
-            Assert.IsFalse(string.IsNullOrEmpty(_variables.userId), "UserId is empty!");
+            Assert.That(string.IsNullOrEmpty(_variables.token), Is.False, "Token is empty!");
+            Assert.That(string.IsNullOrEmpty(_variables.userId), Is.False, "UserId is empty!");
         }
 
         [Test]
@@ -51,10 +49,9 @@ namespace DemoQATests
                     new { isbn = _variables.isbnGitPocketGuide }
                 }
             };
-
             requestAdd.AddJsonBody(body);
             var response = _client.Execute(requestAdd);
-            Assert.IsTrue(response.IsSuccessful, "Action failed - book not added");
+            Assert.That(response.IsSuccessful, Is.True, "Action failed - book not added");
             TestContext.WriteLine("Server resposne: " + response.Content);
         }
 
@@ -72,7 +69,7 @@ namespace DemoQATests
             };
             requestDelete.AddJsonBody(body);
             var response = _client.Execute(requestDelete);
-            Assert.IsTrue(response.IsSuccessful, "Action failed - book not removed");
+            Assert.That(response.IsSuccessful, Is.True, "Action failed - book not removed");
         }
     }
 }

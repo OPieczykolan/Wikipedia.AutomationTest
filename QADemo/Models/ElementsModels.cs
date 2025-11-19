@@ -46,11 +46,11 @@ namespace QADemo.Models
         public IWebElement doubleClickMessageElements => driver.FindElement(By.Id("doubleClickMessage"));
         public IWebElement rightClickMessageElements => driver.FindElement(By.Id("rightClickMessage"));
         public IWebElement clickMeMessageElements => driver.FindElement(By.Id("dynamicClickMessage"));
-        public IReadOnlyCollection<IWebElement> allButtonsMessagesElements => new List<IWebElement>
+        public IReadOnlyCollection<By> allButtonsMessagesElements => new List<By>
         {
-        doubleClickMessageElements,
-        rightClickMessageElements,
-        clickMeMessageElements
+            By.Id("doubleClickMessage"),
+            By.Id("rightClickMessage"),
+            By.Id("clickMeMessage")
         };
 
         // Upload and Download page selectors //
@@ -73,7 +73,6 @@ namespace QADemo.Models
         public IWebElement forbiddenLinkElements => driver.FindElement(By.Id("forbidden"));
         public IWebElement notFoundLinkElements => driver.FindElement(By.Id("invalid-url"));
         public IWebElement linkResponseElements => driver.FindElement(By.Id("linkResponse"));
-
 
         public ElementsModels(IWebDriver driver)
         {

@@ -24,5 +24,22 @@ namespace QADemo.Methods
             variables = elementsVariables;
             utilities = generalUtilities;
         }
+
+        public static void CheckboxCheck()
+        {
+            foreach (IWebElement checkbox in models.allCheckboxIconsElements)
+            {
+                checkbox.Click();
+            }
+        }
+
+        public static void VerifyIfMessageNotDisplayed()
+        {
+            foreach (var locator in models.allButtonsMessagesElements)
+            {
+                var elements = utilities.Driver.FindElements(locator);
+                Assert.That(elements.Count, Is.EqualTo(0));
+            }
+        }
     }
 }

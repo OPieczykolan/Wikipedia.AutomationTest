@@ -47,10 +47,7 @@ namespace QADemo.Tests
         {
             _models.checkBoxLeftPanel.Click();
             _models.expandAllButtonElements.Click();
-            foreach(IWebElement checkbox in _models.allCheckboxIconsElements)
-            {
-                checkbox.Click();
-            }
+            ElementsActions.CheckboxCheck();
             Assert.That(_models.resultContainerElements.Text, Is.EqualTo(_variables.checboxSuccessMessage));
         }
 
@@ -66,18 +63,13 @@ namespace QADemo.Tests
         }
 
         [Test]
-
         public void Buttons()
         {
             _models.buttonsLeftPanel.Click();
             _models.doubleClickButtonElements.Click();
             _models.rightClickButtonElements.Click();
             _utilities.RightClick(_models.clickMeButtonElements);
-            //To work on it
-            /*foreach (IWebElement resultMessage in _models.allButtonsMessagesElements)
-            {
-                Assert.That(resultMessage.Displayed, Is.False);
-            }*/ 
+            ElementsActions.VerifyIfMessageNotDisplayed();
             _utilities.ActionDoubleClick(_models.doubleClickButtonElements);
             Assert.That(_models.doubleClickMessageElements.Text, Is.EqualTo(_variables.doubleClickMessage));
             _utilities.RightClick(_models.rightClickButtonElements);
@@ -91,10 +83,7 @@ namespace QADemo.Tests
         public void UploadAndDownload()
         {
             _models.uploadAndDownloadLeftPanel.Click();
-            foreach (var file in Directory.GetFiles(_utilities.downloadLocation))
-            {
-                File.Delete(file);
-            }
+            _utilities.ClearDownloadFolder();
             _models.downloadButtonElements.Click();
             Thread.Sleep(4000);
             _models.uploadFileElements.SendKeys(_utilities.GetLatestDownloadedFile());
@@ -105,7 +94,6 @@ namespace QADemo.Tests
         [Test]
         public void Links()
         {
-
             //Rebuild this test using Chrome DEvTools Protocol to capture network responses
             _models.linksLeftPanel.Click();
             _models.homeLinkElements.Click();

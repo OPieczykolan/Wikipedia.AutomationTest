@@ -116,11 +116,19 @@ namespace Selenium.Core
 
         public string GetLatestDownloadedFile()
         {
-            return Directory.GetFiles(downloadLocation)   // ← zamiana! pobieram LISTĘ plików
-                .Select(path => new FileInfo(path))            // zamieniam string → FileInfo
-                .OrderByDescending(path => path.LastWriteTime) // sortuję po dacie modyfikacji
-                .First()                                 // biorę najnowszy
-                .FullName;                               // zwracam pełną ścieżkę
+            return Directory.GetFiles(downloadLocation)
+                .Select(path => new FileInfo(path))        
+                .OrderByDescending(path => path.LastWriteTime)
+                .First()                                 
+                .FullName;
+        }
+
+        public void ClearDownloadFolder()
+        {
+            foreach (var file in Directory.GetFiles(downloadLocation))
+            {
+                File.Delete(file);
+            }
         }
 
         public string GoToNewTab()
@@ -136,23 +144,6 @@ namespace Selenium.Core
             Driver.Close();
             Driver.SwitchTo().Window(tabs[0]);
         }
-
-        public void GetResponseStatusCode(string response)
-        {
-            var statusCodePattern = @"\b\d{3}\b";
-            var match = Regex.Match(response, statusCodePattern);
-            if (match.Success)
-            {
-                string statusCode = match.Value;
-                return;
-            }
-            else
-            {
-                throw new Exception("Status code not found in the response.");
-            }
-        }
-        
-
     }   
 }
 
